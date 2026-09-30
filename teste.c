@@ -14,23 +14,24 @@ int main(){
 
 
     No *testar;
-    //testar = (No*)malloc(sizeof(No));
+    testar = (No*)malloc(sizeof(No));
 
-    testar->CodSoli = 1001;
-    strcpy(testar->CodEqui, "string");
-    strcpy(testar->NomeEqui, "nomess");
-    testar->Prioridade = 2;
-    testar->Periodo = 15;
+    testar->info.CodSoli = 1001;
+    strcpy(testar->info.CodEqui, "string");
+    strcpy(testar->info.NomeEqui, "nomess");
+    testar->info.Prioridade = 2;
+    testar->info.Periodo = 15;
     testar->prox = NULL;
 
-    ImprimeItem(testar);
+    //ImprimeItem(testar);
 
     inserir(F, testar);
-
+    ImprimeLista(F);
     No *aux = (No*)malloc(sizeof(No));
     aux = AchaItemNo(F, 1001);
 
-    ImprimeItem(aux);
+    //ImprimeItem(aux);
+
 
     F = liberaFila(F);
     free(testar);

@@ -58,7 +58,7 @@ int vaziaLista (Lista *l)
     exit(1);
 }
 
-//esvasia td a lista, devolve apenas uma fila sem inicio
+//esvazia td a lista, devolve apenas uma fila sem inicio
 Lista* liberaLista (Lista* l)
 {
     No *aux = l -> inicio;
