@@ -6,8 +6,8 @@ Sistema de registro de reparos de equipamentos, em C
 
 ## **Integrantes:**
 
-Lawrencio C Vituli
+Lawrencio Cecchinato Vituli
 
-Raquel Rubio
+Raquel Rubio de Souza
 
-Valentina Ruiz
+Valentina Serrano Ruiz
