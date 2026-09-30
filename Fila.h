@@ -45,7 +45,7 @@ int vaziaFila (Fila *f)
     exit(1);
 }
 
-//imprime um unico item, recebe fila e o indice (definido pelo AchaItem
+//imprime um unico item, recebe o no (tem que estar alocado)
 void ImprimeItem(No *aux){
 
     printf("\nImpressão de um único nó");
