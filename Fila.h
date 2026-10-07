@@ -47,7 +47,7 @@ int vaziaFila (Fila *f)
 //imprime um unico item, recebe o no (tem que estar alocado)
 void ImprimeItem(Dados info){
 
-    printf("\nImpressão de um único nó");
+   // printf("\nImpressão de um único nó");
     printf("\nCódigo de Solicitação: %d\n", info.CodSoli);
     printf("Código do Equipamento: %s\n", info.CodEqui);
     printf("Nome do Equipamento: %s\n", info.NomeEqui);
@@ -57,15 +57,13 @@ void ImprimeItem(Dados info){
 }
 
 void ImprimeLista(Fila *F){
-    printf("NEM TENTEI.");
+    printf("\n\nIMPRIME FILA.");
     No* aux;
     aux = F->inicio;
     while(aux != NULL){
         ImprimeItem(aux->info);
         aux = aux->prox;
-        printf("TENTEI.");
     }
-    printf("EU TENTEI!2");
 }
 
 //funçao que insere, nao verifica nada (INCOMPLETA)
@@ -74,7 +72,7 @@ void inserir (Fila *F, Dados Infos){ //tras a fila e um item do tipo no que deve
     No *novo = (No*)malloc(sizeof(No)); //aloca espaço de novo nó e transfere tds as suas informações
     novo->info = Infos;
     novo->prox = NULL;
-    ImprimeItem(novo->info);
+    //ImprimeItem(novo->info);
 
     No *aux;
     No *aux2=NULL;
@@ -84,9 +82,10 @@ void inserir (Fila *F, Dados Infos){ //tras a fila e um item do tipo no que deve
         aux = aux->prox;
     }
 
+
     novo->prox = aux;
     if(aux2 == NULL){
-        F->inicio->prox = novo;
+        F->inicio = novo;
     }
     else{
         aux2->prox = novo;
@@ -124,13 +123,15 @@ int DisponivelCod(Fila *f, int codigo){
 //encontra onde esta um item pelo codigo de solicitação, devolve no, se n tiver devolve NULL
 No* AchaItemNo(Fila *f, int codigo){
 
+    printf("\nAcha no");
     No *aux = f->inicio;
-    while(aux!=NULL || aux->info.CodSoli != codigo){
+    while(aux!=NULL && aux->info.CodSoli != codigo){
         aux = aux->prox;
     }
     if (aux->info.CodSoli != codigo){
         aux = NULL;
     }
+
     ImprimeItem(aux->info);
     return aux;
 }

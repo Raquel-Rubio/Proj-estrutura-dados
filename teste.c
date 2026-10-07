@@ -16,7 +16,7 @@ int main(){
 
 
     No *testar;
-    testar = (No*)malloc(sizeof(No));
+    //testar = (No*)malloc(sizeof(No));
 
     testar->info.CodSoli = 1001;
     strcpy(testar->info.CodEqui, "string");
@@ -28,10 +28,11 @@ int main(){
    // ImprimeItem(testar->info);
 
     inserir(F, testar->info);
+
     ImprimeLista(F);
     No *aux = (No*)malloc(sizeof(No));
     aux = AchaItemNo(F, 1001);
-
+    printf("NEM TENTEI.");
     //ImprimeItem(aux);
 
 
