@@ -25,19 +25,31 @@ int main(){
     testar->info.Periodo = 15;
     testar->prox = NULL;
 
+    testar->info.CodSoli = 1005;
+    strcpy(testar->info.CodEqui, "string");
+    strcpy(testar->info.NomeEqui, "nomess");
+    testar->info.Prioridade = 2;
+    testar->info.Periodo = 15;
+    testar->prox = NULL;
+
+    testar->info.CodSoli = 1003;
+    strcpy(testar->info.CodEqui, "string");
+    strcpy(testar->info.NomeEqui, "nomess");
+    testar->info.Prioridade = 2;
+    testar->info.Periodo = 15;
+    testar->prox = NULL;
+
    // ImprimeItem(testar->info);
 
     inserir(F, testar->info);
 
     ImprimeLista(F);
-    No *aux = (No*)malloc(sizeof(No));
-    aux = AchaItemNo(F, 1001);
+    AchaItemNo(F, 1001);
     printf("NEM TENTEI.");
     //ImprimeItem(aux);
 
 
     F = liberaFila(F);
     free(testar);
-    free(aux);
     return 0;
 }
