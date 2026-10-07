@@ -2,8 +2,10 @@
 #include<stdlib.h>
 #include<string.h>
 #include "Fila.h"
+#include<locale.h>
 
 int main(){
+    setlocale(LC_ALL, "portuguese");
 
     //printf("\n24\n");
     Fila *F;
@@ -23,9 +25,9 @@ int main(){
     testar->info.Periodo = 15;
     testar->prox = NULL;
 
-    //ImprimeItem(testar);
+   // ImprimeItem(testar->info);
 
-    inserir(F, testar);
+    inserir(F, testar->info);
     ImprimeLista(F);
     No *aux = (No*)malloc(sizeof(No));
     aux = AchaItemNo(F, 1001);

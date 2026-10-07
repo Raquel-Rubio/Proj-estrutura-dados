@@ -69,17 +69,17 @@ void ImprimeLista(Fila *F){
 }
 
 //funçao que insere, nao verifica nada (INCOMPLETA)
-void inserir (Fila *F, No *Infos){ //tras a fila e um item do tipo no que deve ter tds as informações a serem inseridas
+void inserir (Fila *F, Dados Infos){ //tras a fila e um item do tipo no que deve ter tds as informações a serem inseridas
 
     No *novo = (No*)malloc(sizeof(No)); //aloca espaço de novo nó e transfere tds as suas informações
-    novo->info = Infos->info;
+    novo->info = Infos;
     novo->prox = NULL;
     ImprimeItem(novo->info);
 
     No *aux;
     No *aux2=NULL;
     aux = F ->inicio;
-    while(aux!=NULL && aux->info.CodSoli < Infos->info.CodSoli){
+    while(aux!=NULL && aux->info.CodSoli < Infos.CodSoli){
         aux2 = aux;
         aux = aux->prox;
     }
