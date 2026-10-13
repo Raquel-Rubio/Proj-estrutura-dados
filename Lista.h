@@ -60,7 +60,7 @@ void ImprimeLista(Lista *l){
 }
 
 //funçao que insere
-void inserir (Fila *F, Dados Infos){ //tras a fila e um item do tipo no que deve ter tds as informações a serem inseridas
+void inserir (Lista *L, Dados Infos){ //tras a fila e um item do tipo no que deve ter tds as informações a serem inseridas
     No *novo = (No*)malloc(sizeof(No)); //aloca espaço de novo nó e transfere tds as suas informações
     novo->info = Infos;
     novo->prox = NULL;
@@ -68,7 +68,7 @@ void inserir (Fila *F, Dados Infos){ //tras a fila e um item do tipo no que deve
 
     No *aux;
     No *aux2=NULL;
-    aux = F ->inicio;
+    aux = L ->inicio;
     while(aux!=NULL && aux->info.CodSoli < Infos.CodSoli){
         aux2 = aux;
         aux = aux->prox;
@@ -77,7 +77,7 @@ void inserir (Fila *F, Dados Infos){ //tras a fila e um item do tipo no que deve
 
     novo->prox = aux;
     if(aux2 == NULL){
-        F->inicio = novo;
+        L->inicio = novo;
     }
     else{
         aux2->prox = novo;
