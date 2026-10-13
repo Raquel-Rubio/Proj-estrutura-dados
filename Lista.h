@@ -16,7 +16,7 @@ typedef struct no{
 
 typedef struct lista{
     No *inicio;
-}Lista
+}Lista;
 
 Lista* CriaLista(void){
      Lista *l;
