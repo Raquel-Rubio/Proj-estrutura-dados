@@ -53,6 +53,9 @@ void ImprimeLista(Lista *l){
     printf("\n\nIMPRIME LISTA.");
     No* aux;
     aux = l->inicio;
+    if (aux==NULL){
+        printf("\nA lista está vazia\n");
+    }
     while(aux != NULL){
         ImprimeItem(aux->info);
         aux = aux->prox;
