@@ -90,17 +90,17 @@ void inserir (Lista *L, Dados Infos){ //tras a fila e um item do tipo no que dev
 //esvazia td a fila, devolve apenas uma fila sem inicio
 Lista* liberaLista (Lista* l)
 {
-    No *aux = l -> inicio;
-
-    if(!vaziaLista(l))
-    {
-        while(l->inicio!=NULL){
-            aux = l->inicio;
-            l->inicio = l->inicio->prox;
-            free(aux);
-        }
-        free(l);
+    No *aux;
+    if(l == NULL) return NULL;
+    
+    while(l->inicio!=NULL){
+        aux = l->inicio;
+        l->inicio = l->inicio->prox;
+        free(aux);
     }
+    free(l);
+    return NULL;
+    
 }
 //verifica se um codigo de solicitação ja está sendo usado, se tiver devolve 1, se estiver liberado devolve 0
 int DisponivelCod(Lista *l, int codigo){
@@ -168,13 +168,7 @@ void OrdemManutencao(Lista *L){
     }
 
     ImprimeLista(Ordem);
-
-    No *aux = Ordem->inicio;
-    while(aux != NULL){
-        No *proximo = aux->prox;
-        free(aux);
-        aux = proximo;
-    }
+    liberaLista(Ordem);
     free(Ordem);
 }
 
