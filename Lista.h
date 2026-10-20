@@ -131,59 +131,48 @@ void AchaItemNo(Lista *f, int codigo){
     }
 }
 
-Lista* OrdemManutencao(Lista *L){
-    if(L == NULL){
-        return NULL;
+Lista OrdemManutencao(Lista *L){
+    if(vaziaLista(L)){
+        printf("Lista vazia");
+        return *L;
     }
 
     Lista *Ordem = CriaLista();
-    if(Ordem == NULL){
-        fprintf(stderr, "Erro: nao foi possivel alocar a lista de manutencao.\n");
-        return NULL;
-    }
+    No *orig = L->inicio, *dest = Ordem->inicio, *aux= NULL;
 
-    No *orig = L->inicio;
 
-    while(orig != NULL){
-        No *novo = (No*)malloc(sizeof(No));
-        if(novo == NULL){
-            No *aux = Ordem->inicio;
-            while(aux != NULL){
-                No *proximo = aux->prox;
-                free(aux);
-                aux = proximo;
-            }
-            free(Ordem);
-            fprintf(stderr, "Erro: nao foi possivel alocar um no da lista de manutencao.\n");
-            return NULL;
-        }
 
+    while (orig!=NULL) //Percorre a lista de ORIGEM toda
+    {
+        No *novo = (No*)malloc(sizeof(No)); //Aloca espaço e copia as info do nó de origem atual
         novo->info = orig->info;
         novo->prox = NULL;
+        int achou = 0;
 
-        No *anterior = NULL;
-        No *aux = Ordem->inicio;
-        while(aux != NULL &&
-              (aux->info.Prioridade < novo->info.Prioridade ||
-               (aux->info.Prioridade == novo->info.Prioridade &&
-                (aux->info.Periodo < novo->info.Periodo ||
-                 (aux->info.Periodo == novo->info.Periodo &&
-                  aux->info.CodSoli <= novo->info.CodSoli))))){
-            anterior = aux;
-            aux = aux->prox;
+        while (aux!= NULL && achou == 0 ) //Percorre a lista de DESTINO toda a menos que chame o break
+        {
+            //Condicionais para definir posicao a incluir o no alocado
+            if(novo->info.Prioridade == aux->info.Prioridade){
+                if(novo->info.Periodo >= aux->info.Periodo){
+                    //insere
+                }
+
+            }
+
+            dest = dest->prox;
         }
-
+        
+        //inserir na posicao
         novo->prox = aux;
-        if(anterior == NULL){
-            Ordem->inicio = novo;
+        if (aux == NULL) {
+            Ordem->inicio = novo; // Insere no início
         } else {
-            anterior->prox = novo;
+            aux->prox = novo;      // Insere no meio ou fim
         }
-
-        orig = orig->prox;
+        //proximo no da origem
+        orig = orig->prox;   
     }
-
-    return Ordem;
+    return *Ordem;
 }
 
 #endif // LISTA_H_INCLUDED
