@@ -87,7 +87,7 @@ void inserir (Lista *L, Dados Infos){ //tras a fila e um item do tipo no que dev
     }
 }
 
-//esvasia td a fila, devolve apenas uma fila sem inicio
+//esvazia td a fila, devolve apenas uma fila sem inicio
 Lista* liberaLista (Lista* l)
 {
     No *aux = l -> inicio;
@@ -124,11 +124,66 @@ void AchaItemNo(Lista *f, int codigo){
         aux = aux->prox;
     }
     if (aux->info.CodSoli != codigo){
-        printf("Nao existe soliciacao com este no");
+        printf("Nao existe solicitacao com este no");
     }
     else{
         ImprimeItem(aux->info);
     }
+}
+
+Lista* OrdemManutencao(Lista *L){
+    if(L == NULL){
+        return NULL;
+    }
+
+    Lista *Ordem = CriaLista();
+    if(Ordem == NULL){
+        fprintf(stderr, "Erro: nao foi possivel alocar a lista de manutencao.\n");
+        return NULL;
+    }
+
+    No *orig = L->inicio;
+
+    while(orig != NULL){
+        No *novo = (No*)malloc(sizeof(No));
+        if(novo == NULL){
+            No *aux = Ordem->inicio;
+            while(aux != NULL){
+                No *proximo = aux->prox;
+                free(aux);
+                aux = proximo;
+            }
+            free(Ordem);
+            fprintf(stderr, "Erro: nao foi possivel alocar um no da lista de manutencao.\n");
+            return NULL;
+        }
+
+        novo->info = orig->info;
+        novo->prox = NULL;
+
+        No *anterior = NULL;
+        No *aux = Ordem->inicio;
+        while(aux != NULL &&
+              (aux->info.Prioridade < novo->info.Prioridade ||
+               (aux->info.Prioridade == novo->info.Prioridade &&
+                (aux->info.Periodo < novo->info.Periodo ||
+                 (aux->info.Periodo == novo->info.Periodo &&
+                  aux->info.CodSoli <= novo->info.CodSoli))))){
+            anterior = aux;
+            aux = aux->prox;
+        }
+
+        novo->prox = aux;
+        if(anterior == NULL){
+            Ordem->inicio = novo;
+        } else {
+            anterior->prox = novo;
+        }
+
+        orig = orig->prox;
+    }
+
+    return Ordem;
 }
 
 #endif // LISTA_H_INCLUDED
