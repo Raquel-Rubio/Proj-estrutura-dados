@@ -87,20 +87,20 @@ void inserir (Lista *L, Dados Infos){ //tras a fila e um item do tipo no que dev
     }
 }
 
-//esvasia td a fila, devolve apenas uma fila sem inicio
+//esvazia td a fila, devolve apenas uma fila sem inicio
 Lista* liberaLista (Lista* l)
 {
-    No *aux = l -> inicio;
-
-    if(!vaziaLista(l))
-    {
-        while(l->inicio!=NULL){
-            aux = l->inicio;
-            l->inicio = l->inicio->prox;
-            free(aux);
-        }
-        free(l);
+    No *aux;
+    if(l == NULL) return NULL;
+    
+    while(l->inicio!=NULL){
+        aux = l->inicio;
+        l->inicio = l->inicio->prox;
+        free(aux);
     }
+    free(l);
+    return NULL;
+    
 }
 //verifica se um codigo de solicitação ja está sendo usado, se tiver devolve 1, se estiver liberado devolve 0
 int DisponivelCod(Lista *l, int codigo){
@@ -124,11 +124,52 @@ void AchaItemNo(Lista *f, int codigo){
         aux = aux->prox;
     }
     if (aux->info.CodSoli != codigo){
-        printf("Nao existe soliciacao com este no");
+        printf("Nao existe solicitacao com este no");
     }
     else{
         ImprimeItem(aux->info);
     }
+}
+
+void OrdemManutencao(Lista *L){
+    if(L == NULL){
+        printf("Erro: Lista inválida.\n");
+        return;
+    }
+    Lista *Ordem = CriaLista();
+    No *orig = L->inicio;
+
+    while(orig != NULL){
+        No *novo = (No*)malloc(sizeof(No));
+
+        novo->info = orig->info;
+        novo->prox = NULL;
+
+        No *anterior = NULL;
+        No *aux = Ordem->inicio;
+        while(aux != NULL &&
+              (aux->info.Prioridade < novo->info.Prioridade ||
+               (aux->info.Prioridade == novo->info.Prioridade &&
+                (aux->info.Periodo < novo->info.Periodo ||
+                 (aux->info.Periodo == novo->info.Periodo &&
+                  aux->info.CodSoli <= novo->info.CodSoli))))){
+            anterior = aux;
+            aux = aux->prox;
+        }
+
+        novo->prox = aux;
+        if(anterior == NULL){
+            Ordem->inicio = novo;
+        } else {
+            anterior->prox = novo;
+        }
+
+        orig = orig->prox;
+    }
+
+    ImprimeLista(Ordem);
+    liberaLista(Ordem);
+    free(Ordem);
 }
 
 #endif // LISTA_H_INCLUDED
