@@ -50,7 +50,7 @@ void ImprimeItem(Dados info){
 }
 
 void ImprimeLista(Lista *l){
-    printf("\n\nIMPRIME LISTA.");
+    printf("\n\nIMPRIME LISTA.\n");
     No* aux;
     aux = l->inicio;
     if (aux==NULL){
@@ -92,7 +92,7 @@ Lista* liberaLista (Lista* l)
 {
     No *aux;
     if(l == NULL) return NULL;
-    
+
     while(l->inicio!=NULL){
         aux = l->inicio;
         l->inicio = l->inicio->prox;
@@ -100,19 +100,20 @@ Lista* liberaLista (Lista* l)
     }
     free(l);
     return NULL;
-    
+
 }
 //verifica se um codigo de solicitação ja está sendo usado, se tiver devolve 1, se estiver liberado devolve 0
 int DisponivelCod(Lista *l, int codigo){
 
     No *aux = l->inicio;
-    int indice=0;
-    while(aux->info.CodSoli == codigo){
-        indice = 1;
+    while(aux != NULL){
+        if(aux->info.CodSoli == codigo){
+            printf("\nEsse código ja está em uso\n");
+            return 0;
+        }
         aux = aux->prox;
     }
-    return indice;
-
+    return 1;
 }
 
 //encontra onde esta um item pelo codigo de solicitação, devolve no, se n tiver devolve NULL
@@ -123,7 +124,7 @@ void AchaItemNo(Lista *f, int codigo){
     while(aux!=NULL && aux->info.CodSoli != codigo){
         aux = aux->prox;
     }
-    if (aux->info.CodSoli != codigo){
+    if (aux == NULL){
         printf("Nao existe solicitacao com este no");
     }
     else{
