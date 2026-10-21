@@ -34,6 +34,7 @@ char PegarCaracter(int i){
         while(voltaChar == 0){
             c = getch();
             if(isalpha(c)!= 0){
+                printf("%c", c);
                 voltaChar = 1;
                 return c;
             }
@@ -47,6 +48,7 @@ char PegarCaracter(int i){
         while(voltaChar == 0){
             c = getch();
             if(isalpha(c)!= 0 || c==32){
+                printf("%c", c);
                 voltaChar = 1;
                 return c;
             }
@@ -65,6 +67,7 @@ char PegarUMInteiro(){
         c = getch();
         if(isdigit(c)!= 0){
             voltaUMInt = 1;
+            printf("%c", c);
             return c;
         }
         printf("\nÉ necessário que seja um número \t");
@@ -101,19 +104,22 @@ int main(){
             case 0:
                 loop = 0;
                 printf("\n\n\t\tObrigado por usar nosso sistema\n\n");
+                liberaLista(L);
                 break;
 
             case 1:
                 printf("\nINSERIR UMA SOLICITAÇÃO\n\n");
-                No *aux;
+                No *aux = (No*) malloc (sizeof(No));
                 int extra,extra1,extra2,i;
                 char h;
 
                 do{
-                   printf("Por favor insira o Código de Solicitação: \t");
-                   extra = PegarInteiros();
-                   limpando_buffer();
-                }while(extra<999 || extra>9999);
+                    do{
+                       printf("Por favor insira o Código de Solicitação: \t");
+                       extra = PegarInteiros();
+                       limpando_buffer();
+                    }while(extra<999 || extra>9999);
+                }while(!DisponivelCod(L, extra));
                 aux->info.CodSoli = extra;
 
 
@@ -182,7 +188,15 @@ int main(){
                 break;
 
             case 3:
-                printf("caso n3");
+                int verif;
+                do{
+                    printf("\nEncontrar um Pedido:\t");
+                    verif = PegarInteiros();
+                    limpando_buffer();
+                }while(verif<999 || verif>9999);
+
+                AchaItemNo(L, verif);
+
                 break;
 
             case 4:
@@ -195,6 +209,8 @@ int main(){
 
             case 6:
                 ImprimeLista(L);
+                printf("\n");
+                system("pause");
                 break;
             }
 
