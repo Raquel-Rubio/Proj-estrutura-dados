@@ -204,7 +204,8 @@ int main(){
                 break;
 
             case 5:
-                printf("caso n5");
+                printf("Ordem de Manutenção:");
+                OrdemManutencao(L);
                 break;
 
             case 6:
