@@ -2,11 +2,11 @@
 #define LISTA_H_INCLUDED
 
 typedef struct dados{
-    int CodSoli; //codigo de solicitação
-    char CodEqui[7]; //codigo do equipamento
-    char NomeEqui[21]; //nome do equipamento
-    int Prioridade; //Prioridade, nível de 1 (maior) a 3 (menor)
-    int Periodo; //Definido apartir da prioridade
+    int CodSoli;
+    char CodEqui[7];
+    char NomeEqui[21];
+    int Prioridade;
+    int Periodo;
 }Dados;
 
 typedef struct no{
@@ -25,7 +25,6 @@ Lista* CriaLista(void){
    return l;
 }
 
-// verifica se a lista ta vazia
 int vaziaLista (Lista *l)
 {
     if(l != NULL)
@@ -63,12 +62,11 @@ void ImprimeLista(Lista *l){
     }
 }
 
-//funçao que insere
-void inserir (Lista *L, Dados Infos){ //tras a fila e um item do tipo no que deve ter tds as informações a serem inseridas
-    No *novo = (No*)malloc(sizeof(No)); //aloca espaço de novo nó e transfere tds as suas informações
+void inserir (Lista *L, Dados Infos){
+    No *novo = (No*)malloc(sizeof(No));
     novo->info = Infos;
     novo->prox = NULL;
-    //ImprimeItem(novo->info);
+
 
     No *aux;
     No *aux2=NULL;
@@ -101,7 +99,7 @@ Lista* liberaLista (Lista* l)
     return NULL;
 
 }
-//verifica se um codigo de solicitação ja está sendo usado, se tiver devolve 1, se estiver liberado devolve 0
+
 int DisponivelCod(Lista *l, int codigo){
 
     No *aux = l->inicio;
@@ -115,7 +113,6 @@ int DisponivelCod(Lista *l, int codigo){
     return 1;
 }
 
-//encontra onde esta um item pelo codigo de solicitação, devolve no, se n tiver devolve NULL
 int AchaItemNo(Lista *l, int codigo){
 
     printf("\nSolicitação código %d\t", codigo);
@@ -134,6 +131,28 @@ int AchaItemNo(Lista *l, int codigo){
     }
 }
 
+int AchaPrioPeri (int Q, Lista *l, int codigo){
+     printf("\nSolicitação código %d\t", codigo);
+    No *aux = l->inicio;
+    while(aux!=NULL && aux->info.CodSoli != codigo){
+        aux = aux->prox;
+    }
+    if (aux == NULL){
+        printf("Nao existe solicitacao com este código\n");
+        return 0;
+    }
+    else{
+        printf("\n");
+        ImprimeItem(aux->info);
+        if(Q==1){
+            return aux->info.Periodo;
+        }
+        else{
+            return aux->info.Prioridade;
+        }
+    }
+}
+
 void Modifica(Lista *l, int codigo, int Prioridade, int Periodo){
     No *aux = l->inicio;
     while(aux!=NULL && aux->info.CodSoli != codigo){
@@ -141,6 +160,8 @@ void Modifica(Lista *l, int codigo, int Prioridade, int Periodo){
     }
     aux->info.Prioridade=Prioridade;
     aux->info.Periodo=Periodo;
+
+    ImprimeItem(aux->info);
 }
 
 void OrdemManutencao(Lista *L){
@@ -297,6 +318,30 @@ int VerificaPeriodo(int priori){
 
           return verif;
 
+        }
+    }
+}
+
+int VPInterno(int priori, int perio){
+    if(priori==3){
+        if(perio < 1 || perio > 20){
+            printf("\nNova prioridade não condiz com periodo já existente\n");
+            return 0;
+        }
+        return 1;
+    }else{
+        if(priori==2){
+            if(perio < 1 || perio > 15){
+                printf("\nNova prioridade não condiz com periodo já existente\n");
+                return 0;
+            }
+            return 1;
+        }else{
+            if(perio < 1 || perio > 7){
+                printf("\nNova prioridade não condiz com periodo já existente\n");
+                return 0;
+            }
+            return 1;
         }
     }
 }
