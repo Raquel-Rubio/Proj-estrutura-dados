@@ -2,11 +2,11 @@
 #define LISTA_H_INCLUDED
 
 typedef struct dados{
-    int CodSoli; //codigo de solicitação
-    char CodEqui[7]; //codigo do equipamento
-    char NomeEqui[21]; //nome do equipamento
-    int Prioridade; //Prioridade, nível de 1 (maior) a 3 (menor)
-    int Periodo; //Definido apartir da prioridade
+    int CodSoli;
+    char CodEqui[7];
+    char NomeEqui[21];
+    int Prioridade;
+    int Periodo;
 }Dados;
 
 typedef struct no{
@@ -25,7 +25,6 @@ Lista* CriaLista(void){
    return l;
 }
 
-// verifica se a lista ta vazia
 int vaziaLista (Lista *l)
 {
     if(l != NULL)
@@ -50,24 +49,24 @@ void ImprimeItem(Dados info){
 }
 
 void ImprimeLista(Lista *l){
-    printf("\n\nIMPRIME LISTA.\n");
+    printf("\n\nImprimir Lista\n");
     No* aux;
     aux = l->inicio;
     if (aux==NULL){
         printf("\nA lista está vazia\n");
-    }
-    while(aux != NULL){
-        ImprimeItem(aux->info);
-        aux = aux->prox;
+    }else{
+        while(aux != NULL){
+            ImprimeItem(aux->info);
+            aux = aux->prox;
+        }
     }
 }
 
-//funçao que insere
-void inserir (Lista *L, Dados Infos){ //tras a fila e um item do tipo no que deve ter tds as informações a serem inseridas
-    No *novo = (No*)malloc(sizeof(No)); //aloca espaço de novo nó e transfere tds as suas informações
+void inserir (Lista *L, Dados Infos){
+    No *novo = (No*)malloc(sizeof(No));
     novo->info = Infos;
     novo->prox = NULL;
-    //ImprimeItem(novo->info);
+
 
     No *aux;
     No *aux2=NULL;
@@ -91,8 +90,6 @@ void inserir (Lista *L, Dados Infos){ //tras a fila e um item do tipo no que dev
 Lista* liberaLista (Lista* l)
 {
     No *aux;
-    if(l == NULL) return NULL;
-
     while(l->inicio!=NULL){
         aux = l->inicio;
         l->inicio = l->inicio->prox;
@@ -102,7 +99,7 @@ Lista* liberaLista (Lista* l)
     return NULL;
 
 }
-//verifica se um codigo de solicitação ja está sendo usado, se tiver devolve 1, se estiver liberado devolve 0
+
 int DisponivelCod(Lista *l, int codigo){
 
     No *aux = l->inicio;
@@ -116,20 +113,55 @@ int DisponivelCod(Lista *l, int codigo){
     return 1;
 }
 
-//encontra onde esta um item pelo codigo de solicitação, devolve no, se n tiver devolve NULL
-void AchaItemNo(Lista *f, int codigo){
+int AchaItemNo(Lista *l, int codigo){
 
-    printf("\nAcha no");
-    No *aux = f->inicio;
+    printf("\nSolicitação código %d\t", codigo);
+    No *aux = l->inicio;
     while(aux!=NULL && aux->info.CodSoli != codigo){
         aux = aux->prox;
     }
     if (aux == NULL){
-        printf("Nao existe solicitacao com este no");
+        printf("Nao existe solicitacao com este código\n");
+        return 0;
     }
     else{
+        printf("\n");
         ImprimeItem(aux->info);
+        return 1;
     }
+}
+
+int AchaPrioPeri (int Q, Lista *l, int codigo){
+     printf("\nSolicitação código %d\t", codigo);
+    No *aux = l->inicio;
+    while(aux!=NULL && aux->info.CodSoli != codigo){
+        aux = aux->prox;
+    }
+    if (aux == NULL){
+        printf("Nao existe solicitacao com este código\n");
+        return 0;
+    }
+    else{
+        printf("\n");
+        ImprimeItem(aux->info);
+        if(Q==1){
+            return aux->info.Periodo;
+        }
+        else{
+            return aux->info.Prioridade;
+        }
+    }
+}
+
+void Modifica(Lista *l, int codigo, int Prioridade, int Periodo){
+    No *aux = l->inicio;
+    while(aux!=NULL && aux->info.CodSoli != codigo){
+        aux = aux->prox;
+    }
+    aux->info.Prioridade=Prioridade;
+    aux->info.Periodo=Periodo;
+
+    ImprimeItem(aux->info);
 }
 
 void OrdemManutencao(Lista *L){
@@ -170,7 +202,147 @@ void OrdemManutencao(Lista *L){
 
     ImprimeLista(Ordem);
     liberaLista(Ordem);
-    free(Ordem);
+}
+void limpando_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
+int PegarInteiros(){
+    int PI, voltaInteiros=0;
+    while(voltaInteiros==0){
+        if(scanf(" %d", &PI)==0){
+                limpando_buffer();
+                printf("\nPor favor insira um valor válido:   ");
+        }
+        else{
+            voltaInteiros=1;
+            //printf("\n PegaInt dentro de PegarInteiro: %d\n\n", PI);
+            return PI;
+        }
+    }
+}
+
+char PegarCaracter(int i){
+    int voltaChar=0;
+    char c;
+    if(i==0){
+        while(voltaChar == 0){
+            c = getch();
+            if(isalpha(c)!= 0){
+                printf("%c", c);
+                voltaChar = 1;
+                return c;
+            }
+            if(c==13){
+                return '\0';
+            }
+            printf("\nÉ necessário que seja uma letra:   ");
+        }
+    }
+    else{
+        while(voltaChar == 0){
+            c = getch();
+            if(isalpha(c)!= 0 || c==32){
+                printf("%c", c);
+                voltaChar = 1;
+                return c;
+            }
+            if(c==13){
+                return '\0';
+            }
+            printf("\nÉ necessário que seja uma letra:   ");
+        }
+    }
+}
+
+char PegarUMInteiro(){
+        int voltaUMInt=0;
+    char c;
+    while(voltaUMInt == 0){
+        c = getch();
+        if(isdigit(c)!= 0){
+            voltaUMInt = 1;
+            printf("%c", c);
+            return c;
+        }
+        printf("\nÉ necessário que seja um número:   ");
+    }
+
+}
+
+int VerificaSoli(){
+int verif;
+    do{
+        printf("\nInsira o Código de Solicitação:   ");
+        verif = PegarInteiros();
+        limpando_buffer();
+    }while(verif<999 || verif>9999);
+    return verif;
+}
+
+int VerificaPriori(){
+    int verif;
+    do{
+        printf("\n\nPor favor insira o nível de Prioridade (1 a 3):   ");
+        verif = PegarInteiros();
+        limpando_buffer();
+    }while(verif<1 || verif>3);
+    return verif;
+}
+
+int VerificaPeriodo(int priori){
+    int verif;
+    if(priori==3){
+        do{
+            printf("\nPor favor insira o Período (1 a 20):   ");
+            verif = PegarInteiros();
+        }while(verif < 1 || verif > 20);
+
+        return verif;
+
+    }else{
+        if(priori==2){
+            do{
+                printf("\nPor favor insira o Período (1 a 15):   ");
+                verif = PegarInteiros();
+            }while(verif < 1 || verif > 15);
+
+            return verif;
+
+        }else{
+            do{
+                printf("\nPor favor insira o Período (1 a 7):   ");
+                verif = PegarInteiros();
+            }while(verif < 1 || verif > 7);
+
+          return verif;
+
+        }
+    }
+}
+
+int VPInterno(int priori, int perio){
+    if(priori==3){
+        if(perio < 1 || perio > 20){
+            printf("\nNova prioridade não condiz com periodo já existente\n");
+            return 0;
+        }
+        return 1;
+    }else{
+        if(priori==2){
+            if(perio < 1 || perio > 15){
+                printf("\nNova prioridade não condiz com periodo já existente\n");
+                return 0;
+            }
+            return 1;
+        }else{
+            if(perio < 1 || perio > 7){
+                printf("\nNova prioridade não condiz com periodo já existente\n");
+                return 0;
+            }
+            return 1;
+        }
+    }
+}
 #endif // LISTA_H_INCLUDED
