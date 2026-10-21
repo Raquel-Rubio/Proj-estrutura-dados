@@ -56,9 +56,11 @@ void ImprimeLista(Lista *l){
     if (aux==NULL){
         printf("\nA lista está vazia\n");
     }
-    while(aux != NULL){
-        ImprimeItem(aux->info);
-        aux = aux->prox;
+    else{
+        while(aux != NULL){
+            ImprimeItem(aux->info);
+            aux = aux->prox;
+        }
     }
 }
 
