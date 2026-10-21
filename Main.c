@@ -53,7 +53,7 @@ int main(){
                 aux->info.CodSoli = extra;
 
 
-                printf("\n\nPor favor insira o Código do Equipamento (LLL000):   ");
+                printf("\nPor favor insira o Código do Equipamento (LLL000):   ");
                 for(i=0; i<3; i++){
                     h = PegarCaracter(0);
                     aux->info.CodEqui[i] = h;
@@ -62,8 +62,9 @@ int main(){
                     h = PegarUMInteiro();
                     aux->info.CodEqui[i] = h;
                 }
+                printf("\n\tCódigo de Equipamento informado: %s\n", aux->info.CodEqui);
 
-                printf("\n\nPor favor insira o Nome do Equipamento:   ");
+                printf("\nPor favor insira o Nome do Equipamento:   ");
                 for(i=0; i<20; ){
                     h = PegarCaracter(1);
                     if(h=='\0'){
@@ -72,6 +73,7 @@ int main(){
                     aux->info.NomeEqui[i] = h;
                     i++;
                 }
+                printf("\n\tNome do Equipamento informado: %s\n", aux->info.NomeEqui);
 
                 aux->info.Prioridade = VerificaPriori();
 
@@ -97,17 +99,39 @@ int main(){
                 break;
 
             case 4:
-                int Mprio, Mperi;
-                printf("\nAlterar Prioridade e/ou Periodo");
+                int Mprio, Mperi, mudar;
+                printf("\nAlterar Prioridade e/ou Periodo:");
+                printf("\n\t1-Mudar apenas a Prioridade \n\t2-Mudar apenas o Periodo\n\t3-Mudar Prioridade e Periodo\n\n\t");
+                do{
+                    mudar = PegarInteiros();
+                }while(mudar<0 || mudar>3);
 
                 int altera = VerificaSoli();
 
-                if(!AchaItemNo(L, altera)){
+                int Q = AchaPrioPeri(mudar, L, altera);
+                if(Q == 0){
                     break;
                 }
                 else{
-                    Mprio = VerificaPriori();
-                    Mperi = VerificaPeriodo(Mprio);
+                    switch(mudar){
+                        case 1:
+                            do{
+                                Mprio = VerificaPriori();
+                            }while(!VPInterno(Mprio, Q));
+                            Mperi = Q;
+                            break;
+
+                        case 2:
+                            Mperi = VerificaPeriodo(Q);
+                            Mprio = Q;
+                            break;
+
+                        case 3:
+                            Mprio = VerificaPriori();
+                            Mperi = VerificaPeriodo(Mprio);
+                            break;
+                    }
+
                 }
 
                 Modifica(L, altera, Mprio, Mperi);
