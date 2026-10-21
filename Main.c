@@ -5,79 +5,13 @@
 #include <ctype.h>
 #include "Lista.h"
 #include<locale.h>
-
-
-void limpando_buffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
-
-int PegarInteiros(){
-    int PI, voltaInteiros=0;
-    while(voltaInteiros==0){
-        if(scanf(" %d", &PI)==0){
-                limpando_buffer();
-                printf("\nPor favor insira um valor válido: \t");
-        }
-        else{
-            voltaInteiros=1;
-            //printf("\n PegaInt dentro de PegarInteiro: %d\n\n", PI);
-            return PI;
-        }
-    }
-}
-
-char PegarCaracter(int i){
-    int voltaChar=0;
-    char c;
-    if(i==0){
-        while(voltaChar == 0){
-            c = getch();
-            if(isalpha(c)!= 0){
-                printf("%c", c);
-                voltaChar = 1;
-                return c;
-            }
-            if(c==13){
-                return '\0';
-            }
-            printf("\nÉ necessário que seja uma letra \t");
-        }
-    }
-    else{
-        while(voltaChar == 0){
-            c = getch();
-            if(isalpha(c)!= 0 || c==32){
-                printf("%c", c);
-                voltaChar = 1;
-                return c;
-            }
-            if(c==13){
-                return '\0';
-            }
-            printf("\nÉ necessário que seja uma letra \t");
-        }
-    }
-}
-
-char PegarUMInteiro(){
-        int voltaUMInt=0;
-    char c;
-    while(voltaUMInt == 0){
-        c = getch();
-        if(isdigit(c)!= 0){
-            voltaUMInt = 1;
-            printf("%c", c);
-            return c;
-        }
-        printf("\nÉ necessário que seja um número \t");
-    }
-
-}
-
+#include<windows.h>
 
 int main(){
     setlocale(LC_ALL, "Portuguese");
+    unsigned int CPAGE_UTF8 = 65001;
+    unsigned int CPAGE_DEFAULT = GetConsoleOutputCP();
+    SetConsoleOutputCP(CPAGE_UTF8);
 
     int loop = 1, seletor;
     Lista *L = CriaLista();
@@ -102,9 +36,9 @@ int main(){
             switch(seletor){
 
             case 0:
-                loop = 0;
                 printf("\n\n\t\tObrigado por usar nosso sistema\n\n");
                 liberaLista(L);
+                loop = 0;
                 break;
 
             case 1:
@@ -114,69 +48,36 @@ int main(){
                 char h;
 
                 do{
-                    do{
-                       printf("Por favor insira o Código de Solicitação: \t");
-                       extra = PegarInteiros();
-                       limpando_buffer();
-                    }while(extra<999 || extra>9999);
+                    extra = VerificaSoli();
                 }while(!DisponivelCod(L, extra));
                 aux->info.CodSoli = extra;
 
 
-                printf("\n\nPor favor insira o Código do Equipamento (LLL000): \t");
+                printf("\n\nPor favor insira o Código do Equipamento (LLL000):   ");
                 for(i=0; i<3; i++){
                     h = PegarCaracter(0);
-                    aux->info.CodEqui[i]=h;
+                    aux->info.CodEqui[i] = h;
                 }
                 for(i=3; i<6; i++){
                     h = PegarUMInteiro();
-                    aux->info.CodEqui[i]=h;
+                    aux->info.CodEqui[i] = h;
                 }
-                aux->info.CodEqui[6]='\0';
 
-                printf("\n\nPor favor insira o Nome do Equipamento: \t");
+                printf("\n\nPor favor insira o Nome do Equipamento:   ");
                 for(i=0; i<20; ){
                     h = PegarCaracter(1);
                     if(h=='\0'){
                         break;
                     }
-                    aux->info.NomeEqui[i]=h;
+                    aux->info.NomeEqui[i] = h;
                     i++;
                 }
-                for(i; i<21; i++){
-                    aux->info.NomeEqui[i]='\0';
-                }
+
+                aux->info.Prioridade = VerificaPriori();
 
 
-                do{
-                   printf("\n\nPor favor insira o nível de Prioridade (1 a 3): \t");
-                   extra1 = PegarInteiros();
-                   limpando_buffer();
-                }while(extra1<1 || extra1>3);
-                aux->info.Prioridade=extra1;
+                aux->info.Periodo = VerificaPeriodo(aux->info.Prioridade);
 
-
-                if(aux->info.Prioridade==3){
-                    do{
-                        printf("\n\nPor favor insira o Período (1 a 20): \t");
-                        extra2 = PegarInteiros();
-                    }while(extra2 < 1 || extra2 > 20);
-                    aux->info.Periodo=extra2;
-                }else{
-                    if(aux->info.Prioridade==2){
-                        do{
-                            printf("\n\nPor favor insira o Período (1 a 15): \t");
-                            extra2 = PegarInteiros();
-                        }while(extra2 < 1 || extra2 > 15);
-                        aux->info.Periodo=extra2;
-                    }else{
-                        do{
-                            printf("\n\nPor favor insira o Período (1 a 7): \t");
-                            extra2 = PegarInteiros();
-                        }while(extra2 < 1 || extra2 > 7);
-                        aux->info.Periodo=extra2;
-                    }
-                }
 
                 inserir(L, aux->info);
                 ImprimeItem(aux->info);
@@ -184,61 +85,29 @@ int main(){
                 break;
 
             case 2:
-                printf("caso n2");
+                printf("\nRemover uma Solicitação de Manutenção");
+                int rmv = VerificaSoli();
                 break;
 
             case 3:
-                int verif;
-                do{
-                    printf("\nEncontrar um Pedido:\t");
-                    verif = PegarInteiros();
-                    limpando_buffer();
-                }while(verif<999 || verif>9999);
+                int encon = VerificaSoli();
 
-                AchaItemNo(L, verif);
+                AchaItemNo(L, encon);
 
                 break;
 
             case 4:
-                int altera, Mprio, Mperi;
+                int Mprio, Mperi;
                 printf("\nAlterar Prioridade e/ou Periodo");
-                do{
-                    printf("\nEncontrar um Pedido:\t");
-                    altera = PegarInteiros();
-                    limpando_buffer();
-                }while(altera<999 || altera>9999);
+
+                int altera = VerificaSoli();
 
                 if(!AchaItemNo(L, altera)){
                     break;
                 }
                 else{
-                    do{
-                        printf("\n\nPor favor insira o nível de Prioridade (1 a 3): \t");
-                        Mprio = PegarInteiros();
-                        limpando_buffer();
-                    }while(Mprio<1 || Mprio>3);
-
-                    if(Mprio==3){
-                        do{
-                            printf("\n\nPor favor insira o Período (1 a 20): \t");
-                            Mperi = PegarInteiros();
-                        }while(Mperi < 1 || Mperi > 20);
-                    //aux->info.Periodo=extra2;
-                    }else{
-                        if(Mprio==2){
-                            do{
-                                printf("\n\nPor favor insira o Período (1 a 15): \t");
-                                Mperi = PegarInteiros();
-                            }while(Mperi < 1 || Mperi > 15);
-                        //aux->info.Periodo=extra2;
-                        }else{
-                            do{
-                                printf("\n\nPor favor insira o Período (1 a 7): \t");
-                                Mperi = PegarInteiros();
-                            }while(Mperi < 1 || Mperi > 7);
-                        //aux->info.Periodo=extra2;
-                        }
-                    }
+                    Mprio = VerificaPriori();
+                    Mperi = VerificaPeriodo(Mprio);
                 }
 
                 Modifica(L, altera, Mprio, Mperi);
@@ -259,4 +128,5 @@ int main(){
 
     }
     return 0;
+    SetConsoleOutputCP(CPAGE_DEFAULT);
 }
