@@ -50,17 +50,15 @@ void ImprimeItem(Dados info){
 }
 
 void ImprimeLista(Lista *l){
-    printf("\n\nIMPRIME LISTA.\n");
+    printf("\n\nImprimir Lista\n");
     No* aux;
     aux = l->inicio;
     if (aux==NULL){
         printf("\nA lista está vazia\n");
     }
-    else{
-        while(aux != NULL){
-            ImprimeItem(aux->info);
-            aux = aux->prox;
-        }
+    while(aux != NULL){
+        ImprimeItem(aux->info);
+        aux = aux->prox;
     }
 }
 
@@ -119,19 +117,31 @@ int DisponivelCod(Lista *l, int codigo){
 }
 
 //encontra onde esta um item pelo codigo de solicitação, devolve no, se n tiver devolve NULL
-void AchaItemNo(Lista *f, int codigo){
+int AchaItemNo(Lista *l, int codigo){
 
-    printf("\nAcha no");
-    No *aux = f->inicio;
+    printf("\nSolicitação código %d\t", codigo);
+    No *aux = l->inicio;
     while(aux!=NULL && aux->info.CodSoli != codigo){
         aux = aux->prox;
     }
     if (aux == NULL){
-        printf("Nao existe solicitacao com este no");
+        printf("Nao existe solicitacao com este código\n");
+        return 0;
     }
     else{
+        printf("\n");
         ImprimeItem(aux->info);
+        return 1;
     }
+}
+
+void Modifica(Lista *l, int codigo, int Prioridade, int Periodo){
+    No *aux = l->inicio;
+    while(aux!=NULL && aux->info.CodSoli != codigo){
+        aux = aux->prox;
+    }
+    aux->info.Prioridade=Prioridade;
+    aux->info.Periodo=Periodo;
 }
 
 void OrdemManutencao(Lista *L){
