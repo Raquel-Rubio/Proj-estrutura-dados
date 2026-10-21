@@ -200,12 +200,54 @@ int main(){
                 break;
 
             case 4:
-                printf("caso n4");
+                int altera, Mprio, Mperi;
+                printf("\nAlterar Prioridade e/ou Periodo");
+                do{
+                    printf("\nEncontrar um Pedido:\t");
+                    altera = PegarInteiros();
+                    limpando_buffer();
+                }while(altera<999 || altera>9999);
+
+                if(!AchaItemNo(L, altera)){
+                    break;
+                }
+                else{
+                    do{
+                        printf("\n\nPor favor insira o nível de Prioridade (1 a 3): \t");
+                        Mprio = PegarInteiros();
+                        limpando_buffer();
+                    }while(Mprio<1 || Mprio>3);
+
+                    if(Mprio==3){
+                        do{
+                            printf("\n\nPor favor insira o Período (1 a 20): \t");
+                            Mperi = PegarInteiros();
+                        }while(Mperi < 1 || Mperi > 20);
+                    //aux->info.Periodo=extra2;
+                    }else{
+                        if(Mprio==2){
+                            do{
+                                printf("\n\nPor favor insira o Período (1 a 15): \t");
+                                Mperi = PegarInteiros();
+                            }while(Mperi < 1 || Mperi > 15);
+                        //aux->info.Periodo=extra2;
+                        }else{
+                            do{
+                                printf("\n\nPor favor insira o Período (1 a 7): \t");
+                                Mperi = PegarInteiros();
+                            }while(Mperi < 1 || Mperi > 7);
+                        //aux->info.Periodo=extra2;
+                        }
+                    }
+                }
+
+                Modifica(L, altera, Mprio, Mperi);
                 break;
 
             case 5:
-                printf("Ordem de Manutenção:");
                 OrdemManutencao(L);
+                printf("\n");
+                system("pause");
                 break;
 
             case 6:
