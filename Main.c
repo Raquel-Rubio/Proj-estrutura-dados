@@ -4,14 +4,10 @@
 #include <conio.h>
 #include <ctype.h>
 #include "Lista.h"
-#include<locale.h>
 #include<windows.h>
 
 int main(){
-    setlocale(LC_ALL, "Portuguese");
-    unsigned int CPAGE_UTF8 = 65001;
-    unsigned int CPAGE_DEFAULT = GetConsoleOutputCP();
-    SetConsoleOutputCP(CPAGE_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
 
     int loop = 1, seletor;
     Lista *L = CriaLista();
@@ -152,5 +148,4 @@ int main(){
 
     }
     return 0;
-    SetConsoleOutputCP(CPAGE_DEFAULT);
 }
