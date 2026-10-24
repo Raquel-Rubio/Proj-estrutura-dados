@@ -164,6 +164,23 @@ void Modifica(Lista *l, int codigo, int Prioridade, int Periodo){
     ImprimeItem(aux->info);
 }
 
+void RemoverSoli(Lista *l, int codigo){
+    No *aux = l->inicio;
+    No *anterior = NULL;
+    while(aux!=NULL & aux->info.CodSoli != codigo){
+        anterior = aux;
+        aux = aux->prox;
+    }
+    if(anterior == NULL){
+        l->inicio = aux->prox;
+    } else {
+        anterior->prox = aux->prox;
+    }
+
+    free(aux);
+    printf("\nSolicitação removida!\n");
+}
+
 void OrdemManutencao(Lista *L){
     if(L == NULL){
         printf("Erro: Lista inválida.\n");
