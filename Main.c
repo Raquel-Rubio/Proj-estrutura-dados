@@ -85,6 +85,7 @@ int main(){
             case 2:
                 printf("\nRemover uma Solicitação de Manutenção");
                 int rmv = VerificaSoli();
+                RemoverSoli(L, rmv);
                 break;
 
             case 3:
