@@ -79,7 +79,7 @@ int verif;
         printf("\nInsira o Código de Solicitação:   ");
         verif = PegarInteiros();
         limpando_buffer();
-    }while(verif<999 || verif>9999);
+    }while(verif<1000 || verif>9999);
     return verif;
 }
 
@@ -182,7 +182,7 @@ int main(){
             case 1:
                 printf("\nINSERIR UMA SOLICITAÇÃO\n\n");
                 No *aux = (No*) malloc (sizeof(No));
-                int extra,extra1,extra2,i;
+                int extra,i;
                 char h;
 
                 do{
@@ -200,6 +200,7 @@ int main(){
                     h = PegarUMInteiro();
                     aux->info.CodEqui[i] = h;
                 }
+                aux->info.CodEqui[6] = '\0';
                 printf("\n\tCódigo de Equipamento informado: %s\n", aux->info.CodEqui);
 
                 printf("\nPor favor insira o Nome do Equipamento:   ");
@@ -211,6 +212,9 @@ int main(){
                     aux->info.NomeEqui[i] = h;
                     i++;
                 }
+                for(; i<21; i++){
+                    aux->info.NomeEqui[i] = '\0';
+                }
                 printf("\n\tNome do Equipamento informado: %s\n", aux->info.NomeEqui);
 
                 aux->info.Prioridade = VerificaPriori();
@@ -221,7 +225,7 @@ int main(){
 
                 inserir(L, aux->info);
                 ImprimeItem(aux->info);
-
+                free(aux);
                 break;
 
             case 2:
