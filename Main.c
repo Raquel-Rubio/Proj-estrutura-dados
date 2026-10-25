@@ -59,7 +59,7 @@ char PegarCaracter(int i){
 }
 
 char PegarUMInteiro(){
-        int voltaUMInt=0;
+    int voltaUMInt=0;
     char c;
     while(voltaUMInt == 0){
         c = getch();
@@ -74,7 +74,7 @@ char PegarUMInteiro(){
 }
 
 int VerificaSoli(){
-int verif;
+    int verif;
     do{
         printf("\nInsira o Código de Solicitação:   ");
         verif = PegarInteiros();
