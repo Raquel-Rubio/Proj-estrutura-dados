@@ -86,7 +86,6 @@ void inserir (Lista *L, Dados Infos){
     }
 }
 
-//esvazia td a fila, devolve apenas uma fila sem inicio
 Lista* liberaLista (Lista* l)
 {
     No *aux;
@@ -121,7 +120,7 @@ int AchaItemNo(Lista *l, int codigo){
         aux = aux->prox;
     }
     if (aux == NULL){
-        printf("Nao existe solicitacao com este código\n");
+        printf("\tNão existe solicitação com este código\n");
         return 0;
     }
     else{
@@ -167,7 +166,7 @@ void Modifica(Lista *l, int codigo, int Prioridade, int Periodo){
 void RemoverSoli(Lista *l, int codigo){
     No *aux = l->inicio;
     No *anterior = NULL;
-    while(aux!=NULL & aux->info.CodSoli != codigo){
+    while(aux!=NULL && aux->info.CodSoli != codigo){
         anterior = aux;
         aux = aux->prox;
     }
