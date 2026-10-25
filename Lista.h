@@ -233,7 +233,6 @@ int PegarInteiros(){
         }
         else{
             voltaInteiros=1;
-            //printf("\n PegaInt dentro de PegarInteiro: %d\n\n", PI);
             return PI;
         }
     }
