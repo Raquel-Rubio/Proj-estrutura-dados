@@ -25,20 +25,6 @@ Lista* CriaLista(void){
    return l;
 }
 
-int vaziaLista (Lista *l)
-{
-    if(l != NULL)
-    {
-        if(l->inicio == NULL)
-        {
-            return 1;
-        }
-        return 0;
-    }
-    printf("\n\n\nERRO\n\n\n\n");
-    exit(1);
-}
-
 Lista* liberaLista (Lista* l)
 {
     No *aux;
