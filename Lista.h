@@ -1,9 +1,6 @@
 #ifndef LISTA_H_INCLUDED
 #define LISTA_H_INCLUDED
 
-#include <stdio.h>
-#include <stdlib.h>
-
 typedef struct dados{
     int CodSoli;
     char CodEqui[7];

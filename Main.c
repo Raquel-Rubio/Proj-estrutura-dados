@@ -250,7 +250,7 @@ int main(){
                 printf("\n\t1-Mudar apenas a Prioridade \n\t2-Mudar apenas o Periodo\n\t3-Mudar Prioridade e Periodo\n\n\t");
                 do{
                     mudar = PegarInteiros();
-                }while(mudar<0 || mudar>3);
+                }while(mudar<1 || mudar>3);
 
                 int altera = VerificaSoli();
 
