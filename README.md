@@ -18,6 +18,8 @@ Todos os pedidos devem conter as seguintes informações, informadas pelo usuár
 >[!NOTE]
 >Esse projeto tem objetivos puramente educacionais
 
+Os únicos arquivos que estão funcionais no projeto final são: Main.c e Lista.h, todos os outros foram criados com o intuito de testar o código.
+
 ## **Integrantes:**
 
 Lawrencio Cecchinato Vituli
